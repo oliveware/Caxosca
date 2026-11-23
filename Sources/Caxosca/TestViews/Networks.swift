@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-struct Networks : View {
+public struct Networks : View {
     @State var secret: Bool?
     
-    var body: some View {
+    public var body: some View {
         VStack {
            nav
             
