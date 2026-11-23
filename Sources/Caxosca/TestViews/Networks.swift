@@ -10,6 +10,8 @@ import SwiftUI
 public struct Networks : View {
     @State var secret: Bool?
     
+    public init() {}
+    
     public var body: some View {
         VStack {
            nav
