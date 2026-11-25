@@ -54,7 +54,7 @@ struct SecretNetwork: View {
                     .font(.headline)
                 HStack{
                     ForEach(client.actions, id: \.self) { action in
-                        if action == "UPLOAD" {
+                        if action == "U" {
                             Button(action) { upload = true }
                                 .fileImporter(
                                     isPresented: $upload,
@@ -70,9 +70,11 @@ struct SecretNetwork: View {
                                     }
                                 }
                         } else {
-                            Button(action) {
-                                Task {
-                                    await executer(action)
+                            if let label = Action.secret[action] {
+                                Button(label) {
+                                    Task {
+                                        await executer(action)
+                                    }
                                 }
                             }
                         }
@@ -116,21 +118,21 @@ struct SecretNetwork: View {
         }
     }
 
-    private func executer(_ action: String) async {
+    private func executer(_ action: String, _ type:String = "") async {
         do {
             var data: [String: AnyCodable] = [:]
 
-            if action == "LIRE" {
+            if action == "V" {
                 data["identifiant"] = AnyCodable(125)
             }
-            if action == "LIREFICHIER" {
+            if action == "D" {
                 data["fichier"] = AnyCodable("document.txt")
             }
-            if action == "ECRIREFICHIER" {
+          /*  if action == "ECRIREFICHIER" {
                 data["fichier"] = AnyCodable("écrit.txt")
                 data["contenu"] = AnyCodable("un contenu vraiment très étrange !!!")
-            }
-            if action == "UPLOAD" {
+            }*/
+            if action == "U" {
                 data = uploadata
             }
 
@@ -171,7 +173,7 @@ struct SecretNetwork: View {
             ]
             uploadata = donnees
             //print(donnees["fichier"] ?? "none")
-            await executer("UPLOAD")
+            await executer("U")
         } catch {
             print("Erreur upload :", error)
         }
